@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#101827">
+  <meta name="description" content="Digital Sportsman — the connected platform for outdoor experience operators.">
+  <title>Digital Sportsman — Built for the Outdoors</title>
+
+  <!-- Typography: Google Fonts. Replace with licensed brand fonts if supplied. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --accent: #2675f5;
+      --accent-rgb: 38,117,245;
+      --accent-soft: #eaf2ff;
+      --accent-ink: #1455c4;
+      --ink: #111827;
+      --muted: #667085;
+      --line: #e7ebf1;
+      --paper: #ffffff;
+      --mist: #f5f7fa;
+      --night: #101827;
+      --night-2: #172337;
+      --radius: 22px;
+      --shadow: 0 18px 55px rgba(16,24,39,.10);
+      --font: "DM Sans", sans-serif;
+      --display: "Manrope", sans-serif;
+    }
+    body[data-brand="dsw"] {
+      --accent: #df2994;
+      --accent-rgb: 223,41,148;
+      --accent-soft: #fff0f8;
+      --accent-ink: #a8176b;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; color: var(--ink); background: var(--paper); font-family: var(--font); -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+    img { display: block; width: 100%; object-fit: cover; }
+    .container { width: min(1180px, calc(100% - 48px)); margin-inline: auto; }
+    .announcement { background: var(--night); color: #dce6f5; text-align: center; padding: 9px 16px; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
+    .announcement strong { color: white; }
+    .site-header { position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,.92); backdrop-filter: blur(18px); border-bottom: 1px solid rgba(231,235,241,.8); }
+    .nav-wrap { height: 78px; display: flex; align-items: center; justify-content: space-between; gap: 26px; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; min-width: 218px; }
+    .brand-logo { display:block; width:218px; height:auto; object-fit:contain; }
+    .brand-mark { width: 42px; height: 42px; flex: 0 0 42px; }
+    .brand-name { display: flex; flex-direction: column; line-height: .95; font-family: var(--display); font-weight: 800; letter-spacing: -.055em; }
+    .brand-name span:first-child { font-size: 17px; color: #172033; }
+    .brand-name span:last-child { font-size: 12px; color: var(--accent); letter-spacing: .025em; margin-top: 5px; }
+    .nav-links { display: flex; align-items: center; gap: 27px; color: #364152; font-size: 13px; font-weight: 600; }
+    .nav-links a { transition: color .2s; }
+    .nav-links a:hover { color: var(--accent); }
+    .nav-actions { display: flex; align-items: center; gap: 14px; }
+    .switcher { display: flex; align-items: center; gap: 3px; padding: 4px; border: 1px solid var(--line); border-radius: 999px; background: #f7f8fa; }
+    .switcher button { border: 0; background: transparent; color: #667085; border-radius: 999px; padding: 8px 11px; font-size: 10px; font-weight: 800; letter-spacing: .06em; cursor: pointer; transition: .25s; }
+    .switcher button.active { background: var(--accent); color: white; box-shadow: 0 4px 12px rgba(var(--accent-rgb),.24); }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; border: 1px solid transparent; border-radius: 8px; padding: 13px 19px; background: var(--accent); color: #fff; font-size: 12px; font-weight: 700; transition: transform .2s, box-shadow .2s, background .25s; cursor: pointer; }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(var(--accent-rgb),.24); }
+    .btn.dark { background: var(--night); }
+    .btn.outline { background: transparent; color: var(--ink); border-color: #d8dee8; }
+    .btn.outline:hover { border-color: var(--accent); color: var(--accent); box-shadow: none; }
+    .menu-toggle { display: none; border: 0; background: transparent; font-size: 24px; color: var(--ink); }
+
+    .hero { position: relative; overflow: hidden; background: var(--night); color: white; min-height: 640px; display: flex; align-items: center; }
+    .hero-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .58; }
+    .hero:after { content:""; position:absolute; inset:0; background: linear-gradient(90deg,rgba(8,17,31,.94) 0%,rgba(8,17,31,.76) 43%,rgba(8,17,31,.08) 100%), linear-gradient(0deg,rgba(8,17,31,.25),transparent 55%); }
+    .hero-inner { position: relative; z-index: 2; padding: 92px 0 100px; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 10px; text-transform: uppercase; letter-spacing: .16em; font-size: 10px; font-weight: 800; color: var(--accent); }
+    .eyebrow:before { content:""; width: 27px; height: 2px; background: currentColor; }
+    .hero .eyebrow { color: #a9c9ff; }
+    .hero h1 { max-width: 720px; margin: 23px 0 20px; font: 800 clamp(44px,6.2vw,78px)/.99 var(--display); letter-spacing: -.065em; }
+    .hero h1 em { color: var(--accent); font-style: normal; }
+    .hero-copy { max-width: 520px; color: #d4dcea; font-size: 16px; line-height: 1.75; }
+    .hero-buttons { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 32px; }
+    .hero .btn.outline { color: white; border-color: rgba(255,255,255,.35); }
+    .hero-meta { display: flex; align-items: center; gap: 22px; margin-top: 55px; color: #c1ccdc; font-size: 11px; }
+    .hero-meta span { display: inline-flex; align-items: center; gap: 8px; }
+    .hero-meta i { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
+    .hero-wave { position:absolute; z-index:2; bottom:-1px; left:0; width:100%; height:95px; color:white; }
+
+    .trust { padding: 29px 0; border-bottom: 1px solid var(--line); }
+    .trust-row { display:flex; align-items:center; justify-content:space-between; gap:28px; }
+    .trust-label { color:#8a94a5; font-size:10px; font-weight:800; letter-spacing:.13em; text-transform:uppercase; max-width:130px; }
+    .trust-logos { display:flex; align-items:center; justify-content:space-around; gap:38px; flex:1; color:#667085; font:800 15px var(--display); letter-spacing:-.04em; opacity:.8; }
+    .trust-logos span:nth-child(2) { font-style:italic; }
+    .trust-logos span:nth-child(3) { letter-spacing:.1em; font-size:12px; }
+    .trust-logos span:nth-child(4) { font-weight:600; }
+
+    section { scroll-margin-top: 95px; }
+    .section { padding: 112px 0; }
+    .section-head { max-width: 680px; margin-bottom: 52px; }
+    .section-head.center { text-align:center; margin-inline:auto; }
+    .section-head.center .eyebrow { justify-content:center; }
+    h2 { font: 800 clamp(34px,4.2vw,52px)/1.08 var(--display); letter-spacing:-.06em; margin:15px 0 17px; }
+    .section-head p { color:var(--muted); line-height:1.75; font-size:15px; margin:0; }
+    .platform-grid { display:grid; grid-template-columns: .92fr 1.08fr; gap:70px; align-items:center; }
+    .feature-list { display:grid; gap:24px; margin-top:36px; }
+    .feature { display:grid; grid-template-columns:46px 1fr; gap:16px; align-items:start; }
+    .feature-icon { width:44px; height:44px; display:grid; place-items:center; border-radius:13px; background:var(--accent-soft); color:var(--accent); }
+    .feature-icon svg { width:21px; height:21px; }
+    .feature h3 { margin:1px 0 7px; font:700 16px var(--display); letter-spacing:-.03em; }
+    .feature p { margin:0; color:var(--muted); font-size:13px; line-height:1.65; }
+    .product-visual { position:relative; background:#eef2f7; border-radius:25px; padding:25px; min-height:460px; overflow:hidden; }
+    .product-visual:before { content:""; position:absolute; width:360px; height:360px; border-radius:50%; background:var(--accent-soft); right:-90px; top:-110px; }
+    .browser { position:relative; z-index:1; background:white; border:1px solid #e1e6ee; border-radius:13px; box-shadow:var(--shadow); overflow:hidden; }
+    .browser-top { height:34px; background:#fafbfc; border-bottom:1px solid #e9edf2; display:flex; align-items:center; gap:5px; padding:0 13px; }
+    .browser-top i { width:6px;height:6px;border-radius:50%;background:#d5dbe5; }
+    .browser-body { display:grid; grid-template-columns:115px 1fr; min-height:300px; }
+    .mock-sidebar { background:#f8fafc; border-right:1px solid #edf0f4; padding:18px 12px; }
+    .mock-logo { width:60px;height:7px;background:#202b3d;border-radius:5px;margin-bottom:23px; }
+    .mock-line { height:6px; background:#e1e6ee; border-radius:5px; margin:13px 0; }
+    .mock-line.active { background:var(--accent); width:75%; }
+    .mock-main { min-width:0; padding:22px; }
+    .mock-heading { width:46%; height:11px; border-radius:5px; background:#263348; margin-bottom:18px; }
+    .mock-stats { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:6px; }
+    .mock-stat { min-width:0; padding:10px 6px; border:1px solid #edf0f4; border-radius:8px; }
+    .mock-stat b { display:block; font:800 clamp(10px,1.3vw,16px) var(--display); color:#243248; white-space:nowrap; letter-spacing:-.04em; }
+    .mock-stat small { color:#9aa4b2; font-size:7px; white-space:nowrap; }
+    .mock-chart { display:block; width:100%; height:120px; margin-top:16px; padding:10px; border:1px solid #edf0f4; border-radius:8px; background:linear-gradient(#fff,#fbfcfe); }
+    .floating-card { position:absolute; z-index:2; right:0; bottom:28px; background:white; padding:16px 19px; border-radius:12px; box-shadow:var(--shadow); width:205px; }
+    .floating-card small { color:#8b95a5; font-size:9px; }
+    .floating-card strong { display:block; font:800 22px var(--display); margin:4px 0; }
+    .floating-card em { color:#1b9b71; font-size:10px; font-style:normal; }
+
+    .solutions { background:var(--mist); }
+    .solution-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+    .solution-card { position:relative; overflow:hidden; min-height:330px; border-radius:var(--radius); background:#182438; color:white; }
+    .solution-card img { position:absolute; inset:0; height:100%; opacity:.65; transition:transform .6s; }
+    .solution-card:hover img { transform:scale(1.06); }
+    .solution-card:after { content:""; position:absolute; inset:0; background:linear-gradient(0deg,rgba(8,16,29,.94),rgba(8,16,29,.02) 80%); }
+    .solution-content { position:absolute; z-index:2; bottom:0; left:0; right:0; padding:27px; }
+    .solution-content small { color:#c6d8f3; font-size:10px; letter-spacing:.14em; text-transform:uppercase; }
+    .solution-content h3 { font:800 24px var(--display); letter-spacing:-.05em; margin:9px 0; }
+    .solution-content p { color:#d0d8e5; font-size:12px; line-height:1.6; margin:0; max-width:300px; }
+
+    .ecosystem { background:var(--night); color:white; overflow:hidden; position:relative; }
+    .ecosystem:before { content:""; position:absolute; width:560px;height:560px;border:1px solid rgba(255,255,255,.08);border-radius:50%;right:-180px;top:-180px; box-shadow:0 0 0 55px rgba(255,255,255,.018),0 0 0 110px rgba(255,255,255,.018); }
+    .ecosystem .section-head p { color:#aebbd0; }
+    .ecosystem-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; position:relative; }
+    .ecosystem-card { padding:24px 21px; border:1px solid rgba(255,255,255,.13); background:rgba(255,255,255,.045); border-radius:16px; min-height:190px; transition:.25s; }
+    .ecosystem-card:hover { background:rgba(var(--accent-rgb),.13); border-color:rgba(var(--accent-rgb),.7); transform:translateY(-4px); }
+    .ecosystem-card .number { color:var(--accent); font:800 11px var(--display); letter-spacing:.1em; }
+    .ecosystem-card h3 { font:700 17px var(--display); margin:28px 0 9px; }
+    .ecosystem-card p { color:#aebbd0; font-size:12px; line-height:1.65; margin:0; }
+
+    .story-grid { display:grid; grid-template-columns:1fr 1fr; gap:70px; align-items:center; }
+    .story-image { position:relative; }
+    .story-image img { height:480px; border-radius:var(--radius); }
+    .story-tag { position:absolute; left:-18px; bottom:25px; background:white; border-radius:12px; box-shadow:var(--shadow); padding:17px 20px; }
+    .story-tag strong { display:block; font:800 24px var(--display); color:var(--accent); }
+    .story-tag span { font-size:10px; color:var(--muted); }
+    .story-copy p { color:var(--muted); line-height:1.8; font-size:14px; }
+    .story-points { display:grid; grid-template-columns:1fr 1fr; gap:17px; margin:29px 0; }
+    .story-points div { border-top:1px solid var(--line); padding-top:14px; }
+    .story-points strong { display:block; font:800 22px var(--display); }
+    .story-points span { color:var(--muted); font-size:11px; }
+
+    .quote { background:var(--accent-soft); padding:78px 0; }
+    .quote-inner { max-width:850px; margin:auto; text-align:center; }
+    .quote-mark { color:var(--accent); font:800 70px/ .7 Georgia,serif; }
+    blockquote { margin:24px 0; font:700 clamp(24px,3.4vw,38px)/1.25 var(--display); letter-spacing:-.05em; color:#202b3d; }
+    .quote cite { color:var(--muted); font-size:12px; font-style:normal; }
+
+    .resources { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+    .resource { border:1px solid var(--line); border-radius:17px; overflow:hidden; background:white; transition:.25s; }
+    .resource:hover { transform:translateY(-5px); box-shadow:var(--shadow); }
+    .resource img { height:190px; }
+    .resource-body { padding:22px; }
+    .resource-body small { color:var(--accent); text-transform:uppercase; font-size:9px; letter-spacing:.14em; font-weight:800; }
+    .resource-body h3 { font:700 18px/1.3 var(--display); letter-spacing:-.04em; margin:10px 0; }
+    .resource-body p { color:var(--muted); font-size:12px; line-height:1.7; margin:0 0 18px; }
+    .text-link { color:var(--accent-ink); font-size:11px; font-weight:800; }
+
+    .cta { padding:0 0 110px; }
+    .cta-panel { position:relative; overflow:hidden; background:var(--night); color:white; border-radius:25px; padding:58px 62px; display:flex; justify-content:space-between; align-items:center; gap:35px; }
+    .cta-panel:after { content:""; position:absolute; width:330px;height:330px;border:1px solid rgba(255,255,255,.1);border-radius:50%;right:18%;top:-220px;box-shadow:0 0 0 35px rgba(255,255,255,.025),0 0 0 70px rgba(255,255,255,.025); }
+    .cta-panel h2 { max-width:590px; margin:12px 0; }
+    .cta-panel p { color:#b9c5d7; font-size:13px; line-height:1.7; max-width:500px; }
+    .cta-panel .btn { white-space:nowrap; position:relative;z-index:2; }
+
+    footer { background:#0b1220; color:white; padding:65px 0 25px; position:relative; margin-top:0; }
+    .footer-wave { position:absolute; z-index:0; top:-78px; left:0; width:100%; height:80px; overflow:hidden; color:#0b1220; pointer-events:none; }
+    .footer-wave svg { display:block; width:100%; height:100%; }
+    .footer-wave .wave-line { fill:none; stroke:var(--accent); stroke-linecap:round; }
+    .footer-wave .wave-line.soft { stroke-opacity:.18; stroke-width:11; }
+    .footer-wave .wave-line.main { stroke-opacity:.8; stroke-width:2; }
+    footer > .container { position:relative; z-index:1; }
+    .footer-grid { display:grid; grid-template-columns:1.5fr 1fr 1fr 1fr; gap:45px; padding-bottom:50px; }
+    footer .brand-logo { background:#fff; border-radius:4px; padding:4px; }
+    footer .brand-name span:first-child { color:white; }
+    .footer-about p { color:#9ba8bb; font-size:12px; line-height:1.8; max-width:280px; margin-top:20px; }
+    .footer-col h4 { font:700 12px var(--display); margin:7px 0 18px; }
+    .footer-col a { display:block; color:#9ba8bb; font-size:11px; margin:12px 0; }
+    .footer-col a:hover { color:white; }
+    .footer-bottom { border-top:1px solid rgba(255,255,255,.1); padding-top:20px; display:flex; justify-content:space-between; color:#718096; font-size:10px; }
+
+    @media (max-width: 980px) {
+      .nav-links { gap:14px; }
+      .brand { min-width:auto; }
+      .nav-actions .btn { display:none; }
+      .platform-grid,.story-grid { gap:38px; }
+      .ecosystem-grid { grid-template-columns:repeat(2,1fr); }
+    }
+    @media (max-width: 760px) {
+      .container { width:min(100% - 34px, 560px); }
+      .nav-wrap { height:68px; }
+      .nav-links { display:none; position:absolute; top:68px; left:0; right:0; padding:20px 24px 25px; background:white; border-bottom:1px solid var(--line); flex-direction:column; align-items:flex-start; gap:20px; }
+      .nav-links.open { display:flex; }
+      .menu-toggle { display:block; }
+      .brand-logo { width:170px; }
+      .brand-mark { width:36px;height:36px;flex-basis:36px; }
+      .brand-name span:first-child { font-size:15px; }
+      .brand-name span:last-child { font-size:10px; }
+      .nav-actions { gap:8px; }
+      .switcher button { padding:8px 9px; }
+      .hero { min-height:640px; }
+      .hero-inner { padding:75px 0 100px; }
+      .hero h1 { font-size:clamp(43px,12vw,62px); }
+      .hero-copy { font-size:14px; }
+      .hero-meta { flex-wrap:wrap; gap:12px 18px; margin-top:38px; }
+      .trust-row { flex-direction:column; align-items:flex-start; }
+      .trust-logos { width:100%; gap:18px; flex-wrap:wrap; justify-content:flex-start; }
+      .section { padding:78px 0; }
+      .section-head { margin-bottom:35px; }
+      .platform-grid,.story-grid { grid-template-columns:1fr; }
+      .platform-grid { gap:35px; }
+      .product-visual { min-height:370px; padding:14px; }
+      .browser-body { grid-template-columns:75px 1fr; min-height:245px; }
+      .mock-main { padding:13px; }
+      .mock-sidebar { padding:14px 8px; }
+      .mock-chart { height:90px; gap:5px; padding-inline:8px; }
+      .floating-card { right:8px; bottom:13px; }
+      .solution-grid,.resources { grid-template-columns:1fr; }
+      .solution-card { min-height:300px; }
+      .ecosystem-grid { grid-template-columns:1fr 1fr; }
+      .story-image img { height:360px; }
+      .story-tag { left:10px; }
+      .cta { padding-bottom:75px; }
+      .cta-panel { padding:37px 27px; flex-direction:column; align-items:flex-start; }
+      .footer-grid { grid-template-columns:1fr 1fr; gap:30px; }
+      .footer-about { grid-column:1/-1; }
+      .footer-bottom { gap:12px; flex-direction:column; }
+    }
+    @media (max-width: 420px) {
+      .switcher button { font-size:9px; padding:7px 8px; }
+      .brand { gap:6px; }
+      .brand-logo { width:145px; }
+      .brand-mark { width:31px;height:31px;flex-basis:31px; }
+      .brand-name span:first-child { font-size:13px; }
+      .brand-name span:last-child { font-size:9px; }
+      .hero-buttons .btn { width:100%; }
+      .ecosystem-grid { grid-template-columns:1fr; }
+      .mock-sidebar { display:none; }
+      .browser-body { grid-template-columns:1fr; }
+      .footer-grid { grid-template-columns:1fr 1fr; }
+    }
+
+    /* 2026 visual refresh: editorial field-guide layout with a sharper product-first rhythm. */
+    :root { --line:#e1e7ef; --mist:#f3f6fa; --radius:24px; }
+    .announcement { padding:11px 16px; letter-spacing:.14em; }
+    .site-header { background:rgba(255,255,255,.86); }
+    .nav-wrap { height:82px; }
+    .nav-links { margin-left:auto; font-size:12px; }
+    .hero { min-height:700px; background:#edf2f7; }
+    .hero:before { content:""; position:absolute; width:520px; height:520px; left:-260px; top:-230px; border:1px solid rgba(var(--accent-rgb),.22); border-radius:50%; box-shadow:0 0 0 44px rgba(var(--accent-rgb),.035),0 0 0 88px rgba(var(--accent-rgb),.025); }
+    .hero:after { background:linear-gradient(90deg,rgba(237,242,247,.98) 0%,rgba(237,242,247,.73) 44%,rgba(237,242,247,.05) 100%); opacity:1; }
+    .hero-photo { left:49%; width:51%; opacity:1; object-position:center; clip-path:polygon(12% 0,100% 0,100% 100%,0 100%); }
+    .hero-inner { padding:112px 0 122px; }
+    .hero h1 { max-width:650px; font-size:clamp(48px,6.5vw,82px); color:var(--ink); }
+    .hero-copy { color:#596a7d; max-width:570px; }
+    .hero .eyebrow { color:var(--accent); }
+    .hero .btn.outline { color:var(--ink); border-color:#b8c3d1; }
+    .hero-buttons { margin-top:35px; }
+    .hero-meta { color:#596a7d; margin-top:48px; }
+    .hero-wave { height:112px; }
+    .trust { padding:25px 0; background:#fff; }
+    .section { padding:118px 0; }
+    .section-head { margin-bottom:58px; }
+    h2 { letter-spacing:-.07em; }
+    .product-visual { min-height:485px; background:linear-gradient(145deg,#eef3f8,#dde8f2); }
+    .solution-card { min-height:350px; }
+    .ecosystem { background:#0f1a2b; }
+    .ecosystem-card { min-height:205px; }
+    .story-image img { filter:saturate(.92); }
+    .cta-panel { border-radius:28px; }
+    .resource img { height:260px; }
+    .story-image { border-radius:var(--radius); }
+    .story-image img { border-radius:calc(var(--radius) - 2px); }
+    @media (max-width:760px) {
+      .hero { min-height:720px; }
+      .hero-photo { left:0; top:40%; width:100%; height:60%; clip-path:none; opacity:.42; }
+      .hero:after { background:linear-gradient(180deg,rgba(237,242,247,.98) 0%,rgba(237,242,247,.91) 48%,rgba(237,242,247,.15) 100%); }
+      .hero-inner { padding:78px 0 120px; }
+      .section { padding:84px 0; }
+      .resource img { height:230px; }
+    }
+
+    /* Premium editorial finish: confident photography, quiet surfaces, and restrained brand color. */
+    :root {
+      --line:#e4e8ed;
+      --mist:#f6f7f5;
+      --paper:#fff;
+      --radius:22px;
+      --shadow:0 20px 60px rgba(16,24,39,.12);
+    }
+    html { overflow-x:clip; }
+    body { color:#172033; }
+    .announcement { background:#0b1422; padding:10px 16px; font-size:10px; letter-spacing:.16em; }
+    .site-header { background:rgba(255,255,255,.94); border-bottom-color:rgba(20,32,49,.08); }
+    .nav-wrap { height:78px; }
+    .nav-links { gap:25px; color:#465366; font-size:12px; }
+    .nav-links a { transition:color .2s ease; }
+    .nav-links a:hover { color:var(--accent-ink); }
+    .switcher { background:#f7f8fa; border-color:#e8ebf0; }
+    .switcher button.active { box-shadow:0 4px 12px rgba(var(--accent-rgb),.2); }
+    .btn { border-radius:7px; padding:14px 20px; letter-spacing:.01em; }
+    .btn:focus-visible,
+    .switcher button:focus-visible,
+    .menu-toggle:focus-visible,
+    a:focus-visible { outline:3px solid rgba(var(--accent-rgb),.5); outline-offset:3px; }
+
+    .hero { min-height:710px; background:#0d1928; color:white; }
+    .hero:before { z-index:1; pointer-events:none; }
+    .hero:after {
+      z-index:1;
+      background:linear-gradient(90deg,rgba(8,17,30,.94) 0%,rgba(8,17,30,.82) 38%,rgba(8,17,30,.34) 72%,rgba(8,17,30,.08) 100%),
+        linear-gradient(0deg,rgba(8,17,30,.36),transparent 42%);
+    }
+    .hero-photo { left:0; width:100%; opacity:.88; clip-path:none; object-position:center 48%; }
+    .hero-inner { padding:112px 0 128px; }
+    .hero .eyebrow { color:#d5e2f5; }
+    .hero h1 { max-width:690px; color:#fff; font-size:clamp(54px,7vw,88px); letter-spacing:-.07em; }
+    .hero h1 em { color:var(--accent); }
+    .hero-copy { max-width:550px; color:rgba(239,244,251,.84); font-size:16px; }
+    .hero .btn.outline { color:white; background:rgba(255,255,255,.08); border-color:rgba(255,255,255,.42); }
+    .hero .btn.outline:hover { background:rgba(255,255,255,.16); border-color:white; color:white; }
+    .hero-meta { color:rgba(232,239,248,.8); font-size:11px; }
+    .hero-wave { color:var(--paper); }
+
+    .trust { padding:27px 0; background:#fff; }
+    .trust-label { color:#697587; letter-spacing:.12em; }
+    .trust-logos { color:#465366; font-size:14px; opacity:.82; }
+    .section { padding:108px 0; }
+    .section-head { margin-bottom:52px; }
+    h2 { color:#172033; letter-spacing:-.055em; }
+    .eyebrow { letter-spacing:.14em; }
+    .feature { gap:17px; }
+    .feature-icon { border-radius:12px; }
+    .feature h3 { letter-spacing:-.025em; }
+    .product-visual { border-radius:24px; box-shadow:inset 0 1px rgba(255,255,255,.8); }
+    .browser { border-radius:12px; box-shadow:0 22px 60px rgba(20,35,55,.16); }
+    .floating-card { right:0; bottom:25px; border:1px solid rgba(20,32,49,.06); }
+
+    .solutions { background:#f5f6f4; }
+    .solution-grid { gap:20px; }
+    .solution-card {
+      min-height:365px;
+      border:1px solid rgba(19,31,47,.09);
+      border-radius:19px;
+      box-shadow:0 12px 30px rgba(18,30,46,.08);
+    }
+    .solution-card img { opacity:.78; transition:transform .7s cubic-bezier(.2,.7,.2,1); }
+    .solution-card:after { background:linear-gradient(0deg,rgba(7,15,27,.91),rgba(7,15,27,.06) 76%); }
+    .solution-content { padding:28px; }
+    .solution-content small { color:#d8e4f4; }
+    .solution-content h3 { font-size:25px; }
+    .ecosystem { background:#101a29; }
+    .ecosystem h2 { color:#fff; }
+    .ecosystem-card {
+      border-color:rgba(255,255,255,.12);
+      background:rgba(255,255,255,.035);
+      border-radius:14px;
+      transition:background .25s,border-color .25s,transform .25s;
+    }
+    .ecosystem-card:hover { background:rgba(var(--accent-rgb),.1); }
+    .story-image { border:0; border-radius:var(--radius); overflow:visible; }
+    .story-image img { height:490px; border-radius:var(--radius); box-shadow:0 20px 54px rgba(16,24,39,.14); }
+    .story-tag { left:-14px; bottom:24px; border:1px solid rgba(20,32,49,.06); border-top:3px solid var(--accent); border-radius:11px; }
+    .story-tag strong { font-size:22px; }
+    .quote { background:var(--accent-soft); }
+    blockquote { color:#1b2739; }
+    .resources { gap:22px; align-items:stretch; }
+    .resource {
+      display:flex;
+      flex-direction:column;
+      border:1px solid #e6e9ed;
+      border-radius:16px;
+      box-shadow:0 8px 26px rgba(16,24,39,.035);
+    }
+    .resource:hover { box-shadow:0 18px 42px rgba(16,24,39,.1); }
+    .resource img { height:230px; padding:9px; background:#e9edf2; border:1px solid #dfe4ea; border-radius:14px; }
+    .resource-body { display:flex; flex:1; flex-direction:column; padding:23px; background:#f7f8f6; }
+    .resource-body p { flex:1; }
+    .text-link { letter-spacing:.02em; }
+    .cta-panel { border-radius:23px; padding:62px 66px; box-shadow:0 24px 60px rgba(16,24,39,.12); }
+    .cta-panel h2 { color:#fff; }
+    footer { background:#0b1422; }
+
+    @media (max-width:980px) {
+      .nav-links { gap:14px; }
+      .hero { min-height:670px; }
+      .hero h1 { font-size:clamp(50px,7vw,76px); }
+      .section { padding:92px 0; }
+      .solution-card { min-height:330px; }
+    }
+    @media (max-width:760px) {
+      .nav-wrap { height:68px; }
+      .nav-links { top:68px; background:rgba(255,255,255,.98); }
+      .hero { min-height:710px; }
+      .hero-photo { top:0; height:100%; opacity:.65; object-position:58% center; }
+      .hero:after { background:linear-gradient(90deg,rgba(8,17,30,.88),rgba(8,17,30,.5)),linear-gradient(0deg,rgba(8,17,30,.5),transparent 70%); }
+      .hero-inner { padding:80px 0 118px; }
+      .hero h1 { max-width:560px; font-size:clamp(48px,12vw,66px); }
+      .hero-copy { color:rgba(239,244,251,.9); }
+      .hero .eyebrow { color:#e4edf9; }
+      .hero-meta { color:rgba(239,244,251,.88); }
+      .section { padding:78px 0; }
+      .solution-grid,.resources { gap:16px; }
+      .solution-card { min-height:320px; }
+      .story-image img { height:370px; }
+      .story-tag { left:10px; }
+      .cta-panel { padding:38px 28px; }
+    }
+    @media (prefers-reduced-motion:reduce) {
+      html { scroll-behavior:auto; }
+      *,*::before,*::after { scroll-behavior:auto !important; transition-duration:.01ms !important; animation-duration:.01ms !important; animation-iteration-count:1 !important; }
+    }
+  </style>
+</head>
+
+<body data-brand="dsm">
+  <div class="announcement"><strong>DS Pro 2.0</strong> &nbsp; The AI-powered platform for outdoor operators</div>
+
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="#home" aria-label="Digital Sportsman home">
+        <img class="brand-logo" id="brand-logo" src="blue-logo.png" alt="Digital Sportsman">
+      </a>
+
+      <nav class="nav-links" id="main-nav" aria-label="Main navigation">
+        <a href="#platform">Platform</a>
+        <a href="#solutions">Who We Serve</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#products">Products</a>
+        <a href="#about">About</a>
+      </nav>
+
+      <div class="nav-actions">
+        <!-- BRAND SWITCHER: switches the shared design system between DSM blue and DSW pink. -->
+        <div class="switcher" role="group" aria-label="Choose brand">
+          <button type="button" class="active" data-brand-choice="dsm" aria-pressed="true">DSM</button>
+          <button type="button" data-brand-choice="dsw" aria-pressed="false">DSW</button>
+        </div>
+        <a class="btn" href="#demo">Request a Demo <span aria-hidden="true">↗</span></a>
+        <button class="menu-toggle" id="menu-toggle" aria-label="Open navigation" aria-expanded="false">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <!-- HERO IMAGE COMMENT: Outdoor guide leading a fishing experience on open water. KEYWORDS: outdoor adventure, fishing guide, boat, ocean, sunrise, premium lifestyle. Replace with approved client photography. -->
+      <img class="hero-photo" src="hero-2b.jpg" alt="Expansive outdoor landscape at golden hour">
+      <div class="container hero-inner">
+        <div class="eyebrow">The operating system for outdoor experiences</div>
+        <h1>More bookings.<br><em>Less work.</em></h1>
+        <p class="hero-copy">DS Pro brings booking, customers, marketing, operations and AI-powered insights together in one platform built for the people who make the outdoors happen.</p>
+        <div class="hero-buttons">
+          <a class="btn" href="#demo">Request a Demo <span aria-hidden="true">↗</span></a>
+          <a class="btn outline" href="#platform">Explore the platform <span aria-hidden="true">↓</span></a>
+        </div>
+        <div class="hero-meta">
+          <span><i></i> No commission</span>
+          <span><i></i> Built for operators</span>
+          <span><i></i> Any device</span>
+        </div>
+      </div>
+      <svg class="hero-wave" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0,62 C250,122 420,12 690,47 C960,82 1110,122 1440,26 L1440,120 L0,120 Z" fill="currentColor"/>
+        <path d="M0,62 C250,122 420,12 690,47 C960,82 1110,122 1440,26" fill="none" stroke="var(--accent)" stroke-opacity=".18" stroke-width="8"/>
+        <path d="M0,62 C250,122 420,12 690,47 C960,82 1110,122 1440,26" fill="none" stroke="var(--accent)" stroke-opacity=".72" stroke-width="2"/>
+      </svg>
+    </section>
+
+    <div class="trust">
+      <div class="container trust-row">
+        <div class="trust-label">Made for operators who make memories</div>
+        <div class="trust-logos" aria-label="Outdoor business categories"><span>FISHING</span><span>MARINAS</span><span>TOURS</span><span>CAMPGROUNDS</span><span>RENTALS</span></div>
+      </div>
+    </div>
+
+    <section class="section" id="platform">
+      <div class="container platform-grid">
+        <div>
+          <div class="eyebrow">One platform. Every moving part.</div>
+          <h2>Run your business with confidence.</h2>
+          <p style="color:var(--muted);line-height:1.8;font-size:14px">From the first booking to the final follow-up, Digital Sportsman gives your team the tools and visibility to keep every part of your operation moving.</p>
+          <div class="feature-list">
+            <div class="feature">
+              <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg></div>
+              <div><h3>Bookings that work harder</h3><p>Manage reservations, availability, payments and customer details in one streamlined workflow.</p></div>
+            </div>
+            <div class="feature">
+              <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19V5m0 14h17M8 15l3-4 3 2 5-7"/></svg></div>
+              <div><h3>Marketing with momentum</h3><p>Build stronger customer relationships with connected CRM, campaigns and automated communication.</p></div>
+            </div>
+            <div class="feature">
+              <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v18M3 12h18M5.6 5.6l12.8 12.8m0-12.8L5.6 18.4"/></svg></div>
+              <div><h3>Smarter decisions with AI</h3><p>Turn operational data into useful insights that help your business plan, adapt and grow.</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="product-visual">
+          <div class="browser">
+            <div class="browser-top"><i></i><i></i><i></i></div>
+            <div class="browser-body">
+              <aside class="mock-sidebar"><div class="mock-logo"></div><div class="mock-line active"></div><div class="mock-line"></div><div class="mock-line"></div><div class="mock-line"></div><div class="mock-line"></div><div class="mock-line"></div></aside>
+              <div class="mock-main">
+                <div class="mock-heading"></div>
+                <div class="mock-stats"><div class="mock-stat"><b>1,284</b><small>Bookings</small></div><div class="mock-stat"><b>$42.8k</b><small>Revenue</small></div><div class="mock-stat"><b>86%</b><small>Occupancy</small></div></div>
+                <svg class="mock-chart" viewBox="0 0 560 160" role="img" aria-label="Bookings and revenue trend chart">
+                  <path d="M24 24H536M24 60H536M24 96H536M24 132H536" stroke="#e9edf2" stroke-width="1"/>
+                  <path d="M24 118L96 103L168 111L240 76L312 85L384 56L456 66L536 32V132H24Z" fill="var(--accent-soft)"/>
+                  <path d="M24 118L96 103L168 111L240 76L312 85L384 56L456 66L536 32" fill="none" stroke="var(--accent)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                  <circle cx="24" cy="118" r="4" fill="var(--accent)"/><circle cx="96" cy="103" r="4" fill="var(--accent)"/><circle cx="168" cy="111" r="4" fill="var(--accent)"/><circle cx="240" cy="76" r="4" fill="var(--accent)"/><circle cx="312" cy="85" r="4" fill="var(--accent)"/><circle cx="384" cy="56" r="4" fill="var(--accent)"/><circle cx="456" cy="66" r="4" fill="var(--accent)"/><circle cx="536" cy="32" r="4" fill="var(--accent)"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="floating-card"><small>Bookings this month</small><strong>+28.6%</strong><em>↗ Growing with confidence</em></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section solutions" id="solutions">
+      <div class="container">
+        <div class="section-head center">
+          <div class="eyebrow">Made for your kind of adventure</div>
+          <h2>Your industry. Your way of working.</h2>
+          <p>Purpose-built tools for the people who bring the outdoors to life—whatever your operation looks like.</p>
+        </div>
+        <div class="solution-grid">
+          <article class="solution-card">
+            <!-- SOLUTION IMAGE COMMENT: Fishing charter on open sea. KEYWORDS: fishing charter, boat captain, offshore adventure, ocean. -->
+            <img src="card-1.PNG" alt="Open ocean waves">
+            <div class="solution-content"><small>On the water</small><h3>Fishing & Charters</h3><p>Keep trips, crews, vessels and guest experiences running smoothly.</p></div>
+          </article>
+          <article class="solution-card">
+            <!-- SOLUTION IMAGE COMMENT: Marina with boats. KEYWORDS: marina, yacht harbor, boat slips, waterfront business. -->
+            <img src="card-2.jfif" alt="Sunlit water and coastline">
+            <div class="solution-content"><small>At the harbor</small><h3>Marinas & Rentals</h3><p>Coordinate reservations, equipment, slip availability and service.</p></div>
+          </article>
+          <article class="solution-card">
+            <!-- SOLUTION IMAGE COMMENT: Scenic guided outdoor experience. KEYWORDS: guided tours, outdoor recreation, hiking, nature travel. -->
+            <img src="card-3.jpg" alt="Mountain lake and outdoor destination">
+            <div class="solution-content"><small>Out in the world</small><h3>Tours & Experiences</h3><p>Make every customer touchpoint feel effortless, from discovery to return.</p></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section ecosystem" id="products">
+      <div class="container">
+        <div class="section-head">
+          <div class="eyebrow">Everything your operation needs, connected</div>
+          <h2>One ecosystem built around your business.</h2>
+          <p>Manage bookings, schedules, customers and performance from one connected platform. Start with the tools you need and add more as your business grows.</p>
+        </div>
+        <div class="ecosystem-grid">
+          <article class="ecosystem-card"><div class="number">01 / COMMERCE</div><h3>Online Booking</h3><p>Let guests check availability, reserve an experience and pay online.</p></article>
+          <article class="ecosystem-card"><div class="number">02 / OPERATIONS</div><h3>Resource Management</h3><p>Schedule staff, vessels and equipment, and keep availability up to date.</p></article>
+          <article class="ecosystem-card"><div class="number">03 / RELATIONSHIPS</div><h3>CRM & Marketing</h3><p>Keep customer details organized and send timely campaigns and follow-ups.</p></article>
+          <article class="ecosystem-card"><div class="number">04 / INTELLIGENCE</div><h3>AI & Reporting</h3><p>Track business performance and use reports and AI insights to guide decisions.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="about">
+      <div class="container story-grid">
+        <div class="story-image">
+          <!-- STORY IMAGE COMMENT: Outdoor guide welcoming guests on a boat. KEYWORDS: outdoor guide, fishing boat, customer experience, adventure tourism. -->
+          <img src="about.avif" alt="People enjoying a guided experience on the water">
+          <div class="story-tag"><strong>More time outside.</strong><span>That's what it's all about.</span></div>
+        </div>
+        <div class="story-copy">
+          <div class="eyebrow">Technology that gets out of your way</div>
+          <h2>We know the work behind the adventure.</h2>
+          <p>Outdoor businesses are built on real people, real places and unforgettable experiences. But behind every great day outside is a lot to coordinate.</p>
+          <p>Digital Sportsman brings the moving pieces together with practical technology designed around the way outdoor operators work—so your business can run better, and your team can focus on what matters.</p>
+          <div class="story-points"><div><strong>One view</strong><span>of your operation</span></div><div><strong>Less busywork</strong><span>for your team</span></div><div><strong>Better insight</strong><span>for every decision</span></div><div><strong>More connection</strong><span>with your customers</span></div></div>
+          <a class="btn" href="#demo">See what’s possible <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="quote">
+      <div class="container quote-inner">
+        <div class="quote-mark">“</div>
+        <blockquote>Spend less time keeping all the pieces moving—and more time creating experiences people remember.</blockquote>
+        <cite>The Digital Sportsman approach</cite>
+      </div>
+    </section>
+
+    <section class="section" id="resources">
+      <div class="container">
+        <div class="section-head">
+          <div class="eyebrow">Ideas for the outdoors business</div>
+          <h2>Good thinking. Better business.</h2>
+          <p>Insights, inspiration and practical perspectives for operators shaping the future of outdoor experiences.</p>
+        </div>
+        <div class="resources">
+          <article class="resource">
+            <!-- RESOURCE IMAGE COMMENT: Coastal destination aerial. KEYWORDS: destination travel, coastline, outdoor tourism, aerial landscape. -->
+            <img src="resource-1.jpg" alt="Aerial view of a tropical coastline">
+            <div class="resource-body"><small>Growth & strategy</small><h3>Make every booking the beginning of a relationship</h3><p>Explore ways to create a smoother guest journey and encourage customers to return.</p><a class="text-link" href="#demo">Explore insights ↗</a></div>
+          </article>
+          <article class="resource">
+            <!-- RESOURCE IMAGE COMMENT: Outdoor recreation team at work. KEYWORDS: outdoor professionals, guide team, adventure tourism, teamwork. -->
+            <img src="reource-2.PNG" alt="Outdoor adventure landscape" onerror="this.src='https://images.unsplash.com/photo-1472396961693-142e6e269027?auto=format&fit=crop&w=850&q=85'">
+            <div class="resource-body"><small>Operations</small><h3>Bring the moving parts of your operation together</h3><p>Why connected workflows can make a meaningful difference to your team.</p><a class="text-link" href="#demo">Explore insights ↗</a></div>
+          </article>
+          <article class="resource">
+            <!-- RESOURCE IMAGE COMMENT: Modern outdoor boat experience. KEYWORDS: boat tour, outdoor experience, ocean adventure, tourism. -->
+            <img src="resource-3.PNG" alt="Scenic mountain and outdoor destination">
+            <div class="resource-body"><small>Technology</small><h3>What smarter tools can unlock for outdoor businesses</h3><p>See how better information can support confident day-to-day decisions.</p><a class="text-link" href="#demo">Explore insights ↗</a></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta" id="demo">
+      <div class="container">
+        <div class="cta-panel">
+          <div><div class="eyebrow">Your next season starts here</div><h2>Ready to make more room for the good stuff?</h2><p>Let’s talk about your operation, your goals and how Digital Sportsman can help you move forward.</p></div>
+          <a class="btn" href="mailto:hello@digitalsportsman.com?subject=Digital%20Sportsman%20Demo%20Request">Request a Demo <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-wave" aria-hidden="true">
+      <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+        <path d="M0 78 C120 18 230 116 360 59 S600 14 720 67 S960 120 1080 52 S1320 16 1440 67 L1440 120 L0 120 Z" fill="currentColor"></path>
+        <path class="wave-line soft" d="M0 78 C120 18 230 116 360 59 S600 14 720 67 S960 120 1080 52 S1320 16 1440 67"></path>
+        <path class="wave-line main" d="M0 78 C120 18 230 116 360 59 S600 14 720 67 S960 120 1080 52 S1320 16 1440 67"></path>
+      </svg>
+    </div>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <a class="brand" href="#home">
+            <img class="brand-logo" id="footer-brand-logo" src="blue-logo.png" alt="Digital Sportsman">
+          </a>
+          <p>Technology for the people who make outdoor experiences happen. Spend less time managing—and more time outside.</p>
+        </div>
+        <div class="footer-col"><h4>Platform</h4><a href="#platform">Online Booking</a><a href="#platform">CRM & Marketing</a><a href="#platform">AI & Reporting</a><a href="#products">Operations</a></div>
+        <div class="footer-col"><h4>Who We Serve</h4><a href="#solutions">Fishing & Charters</a><a href="#solutions">Marinas & Rentals</a><a href="#solutions">Tours & Experiences</a><a href="#solutions">Outdoor Operators</a></div>
+        <div class="footer-col"><h4>Company</h4><a href="#about">About</a><a href="#resources">Resources</a><a href="#demo">Contact</a><a href="#demo">Request a Demo</a></div>
+      </div>
+      <div class="footer-bottom"><span>© 2026 Digital Sportsman. All rights reserved.</span><span>Privacy · Terms</span></div>
+    </div>
+  </footer>
+
+  <script>
+    // BRAND SWITCHER: DSM uses blue; DSW uses pink. Shared layout and navigation stay consistent.
+    const brandButtons = document.querySelectorAll('[data-brand-choice]');
+    const brandLogos = document.querySelectorAll('.brand-logo');
+
+    function setBrand(brand) {
+      document.body.dataset.brand = brand;
+      const isDsw = brand === 'dsw';
+      const logo = isDsw ? 'pink-logo.png' : 'blue-logo.png';
+      brandLogos.forEach(image => image.src = logo);
+      brandButtons.forEach(button => {
+        const active = button.dataset.brandChoice === brand;
+        button.classList.toggle('active', active);
+        button.setAttribute('aria-pressed', active ? 'true' : 'false');
+      });
+      document.documentElement.style.setProperty('--theme-color', isDsw ? '#df2994' : '#2675f5');
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', isDsw ? '#df2994' : '#101827');
+    }
+    brandButtons.forEach(button => button.addEventListener('click', () => setBrand(button.dataset.brandChoice)));
+
+    // MOBILE NAVIGATION
+    const menuToggle = document.getElementById('menu-toggle');
+    const mainNav = document.getElementById('main-nav');
+    menuToggle.addEventListener('click', () => {
+      const open = mainNav.classList.toggle('open');
+      menuToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      menuToggle.textContent = open ? '×' : '☰';
+    });
+    mainNav.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+      mainNav.classList.remove('open');
+      menuToggle.setAttribute('aria-expanded', 'false');
+      menuToggle.textContent = '☰';
+    }));
+  </script>
+</body>
+</html>
